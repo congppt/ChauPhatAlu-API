@@ -1,6 +1,6 @@
 ﻿namespace Application.Interfaces.Providers;
 
-public class ITimeProvider
-{
-    
+public interface ITimeProvider
+{ 
+    DateTime Now { get; }
 }

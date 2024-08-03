@@ -1,7 +1,7 @@
 ﻿using ChauPhatAluminium.Common;
 
 namespace ChauPhatAluminium.Entities;
-
+#pragma warning disable CS8618
 public class OrderDetail : BaseEntity
 {
     public int OrderId { get; set; }

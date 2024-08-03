@@ -1,6 +1,8 @@
-﻿namespace Application.Interfaces.Services;
+﻿using ChauPhatAluminium.Common;
 
-public interface IGenericService
+namespace Application.Interfaces.Services;
+
+public interface IGenericService<T> where T : BaseEntity
 {
     
 }

@@ -12,6 +12,4 @@ public class Customer : BaseEntity
     public string Phone { get; set; }
     public bool IsMale { get; set; }
     public string Address { get; set; }
-    public int WardId { get; set; }
-    public virtual Ward Ward { get; set; }
 }

@@ -1,6 +1,8 @@
-﻿namespace Application.Interfaces.Services;
+﻿using ChauPhatAluminium.Entities;
 
-public interface IOrderService
+namespace Application.Interfaces.Services;
+
+public interface IOrderService : IGenericService<Order>
 {
     
 }

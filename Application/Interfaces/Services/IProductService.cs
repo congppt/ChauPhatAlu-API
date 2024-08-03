@@ -1,6 +1,8 @@
-﻿namespace Application.Interfaces.Services;
+﻿using ChauPhatAluminium.Entities;
 
-public interface IProductService
+namespace Application.Interfaces.Services;
+
+public interface IProductService : IGenericService<Product>
 {
-    
+
 }

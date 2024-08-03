@@ -1,6 +1,8 @@
-﻿namespace Application.Interfaces.Services;
+﻿using ChauPhatAluminium.Entities;
 
-public interface ICustomerService
+namespace Application.Interfaces.Services;
+
+public interface ICustomerService : IGenericService<Customer>
 {
     
 }
