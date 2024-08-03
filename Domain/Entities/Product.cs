@@ -18,4 +18,5 @@ public class Product : BaseEntity
     public string ImgPath { get; set; }
     public int WarrantyMonth { get; set; }
     public bool IsAvailable { get; set; }
+    public virtual HashSet<OrderDetail> OrderDetails { get; set; }
 }

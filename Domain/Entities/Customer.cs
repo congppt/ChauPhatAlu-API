@@ -12,4 +12,5 @@ public class Customer : BaseEntity
     public string Phone { get; set; }
     public bool IsMale { get; set; }
     public string Address { get; set; }
+    public virtual HashSet<Order> Orders { get; set; }
 }
