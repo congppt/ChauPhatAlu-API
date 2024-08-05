@@ -1,7 +1,5 @@
 ﻿using API.Common;
 using Application.Interfaces.Services;
-using Application.Models.Common;
-using ChauPhatAluminium.Entities;
 using ChauPhatAluminium.Enums;
 using Microsoft.AspNetCore.Mvc;
 
@@ -25,5 +23,12 @@ public class BrandController : Controller
     {
         var page = await _brandService.GetBrandPageAsync(pageNumber, pageSize, category, name);
         return Ok(page);
+    }
+
+    [HttpGet("{id}")]
+    public async Task<IActionResult> GetBrandAsync(int id)
+    {
+        var brand = await _brandService.GetBrandAsync(id);
+        return Ok(brand);
     }
 }

@@ -26,4 +26,10 @@ public class BrandService : GenericService<Brand>, IBrandService
         source = source.OrderByDescending(b => b.Id);
         return await OffsetPage<BrandBasicInfo>.CreateAsync(source.ProjectToType<BrandBasicInfo>(), pageNumber, pageSize);
     }
+
+    public async Task<BrandDetailInfo> GetBrandAsync(int brandId)
+    {
+        var brand = await context.GetByIdAsync<Brand>(brandId) ?? throw new KeyNotFoundException();
+        return brand.Adapt<BrandDetailInfo>();
+    }
 }

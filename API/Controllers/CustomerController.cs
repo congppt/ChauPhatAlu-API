@@ -1,7 +1,5 @@
 ﻿using API.Common;
 using Application.Interfaces.Services;
-using Application.Models.Common;
-using ChauPhatAluminium.Entities;
 using Microsoft.AspNetCore.Mvc;
 
 namespace API.Controllers;

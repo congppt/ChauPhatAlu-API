@@ -12,4 +12,5 @@ public interface IAppDbContext
     DbSet<OrderDetail> OrderDetails { get; }
     DbSet<Product> Products { get; }
     IQueryable<T> GetUntrackedQuery<T>() where T : BaseEntity;
+    Task<T?> GetByIdAsync<T>(int id) where T : BaseEntity;
 }

@@ -22,6 +22,11 @@ public class AppDbContext : DbContext, IAppDbContext
         return this.Set<T>().AsNoTrackingWithIdentityResolution();
     }
 
+    public async Task<T?> GetByIdAsync<T>(int id) where T : BaseEntity
+    {
+        return await Set<T>().FindAsync(id);
+    }
+
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
