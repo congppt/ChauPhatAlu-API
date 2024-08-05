@@ -15,7 +15,7 @@ public class Product : BaseEntity
     public Unit Unit { get; set; }
     [Column(TypeName = "jsonb")]
     public string Description { get; set; }
-    public string ImgPath { get; set; }
+    public string? ImgPath { get; set; }
     public int WarrantyMonth { get; set; }
     public bool IsAvailable { get; set; }
     public virtual HashSet<OrderDetail> OrderDetails { get; set; }

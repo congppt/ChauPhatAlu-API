@@ -9,6 +9,7 @@ namespace API.Controllers;
 public class OrderController : Controller
 {
     // GET
+    [HttpGet]
     public IActionResult Index()
     {
         return View();

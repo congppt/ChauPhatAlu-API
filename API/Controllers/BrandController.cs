@@ -20,9 +20,10 @@ public class BrandController : Controller
     }
 
     [HttpGet]
-    public async Task<OffsetPage<Brand>> GetBrandPageAsync(int pageNumber = 1, int pageSize = 10, Category? category = null,
+    public async Task<IActionResult> GetBrandPageAsync(int pageNumber = 1, int pageSize = 10, Category? category = null,
         string? name = null)
     {
-        return await _brandService.GetBrandPageAsync(pageNumber, pageSize, category, name);
+        var page = await _brandService.GetBrandPageAsync(pageNumber, pageSize, category, name);
+        return Ok(page);
     }
 }

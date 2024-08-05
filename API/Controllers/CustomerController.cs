@@ -19,8 +19,9 @@ public class CustomerController : Controller
     }
 
     [HttpGet]
-    public async Task<OffsetPage<Customer>> GetCustomerPage(int pageNumber = 1, int pageSize = 10, string? phone = null, string? name = null)
+    public async Task<IActionResult> GetCustomerPageAsync(int pageNumber = 1, int pageSize = 10, string? phone = null, string? name = null)
     {
-        return await _customerService.GetCustomerPageAsync(pageNumber, pageSize, phone, name);
+        var page = await _customerService.GetCustomerPageAsync(pageNumber, pageSize, phone, name);
+        return Ok(page);
     }
 }
