@@ -24,4 +24,11 @@ public class ProductController : Controller
         var page = await _productService.GetProductPageAsync(pageNumber, pageSize, brandId, category, minPrice, maxPrice);
         return Ok(page);
     }
+
+    [HttpGet("{id:int}")]
+    public async Task<IActionResult> GetProductAsync(int id)
+    {
+        var product = await _productService.GetProductAsync(id);
+        return Ok(product);
+    }
 }

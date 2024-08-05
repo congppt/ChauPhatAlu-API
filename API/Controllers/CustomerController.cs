@@ -22,4 +22,11 @@ public class CustomerController : Controller
         var page = await _customerService.GetCustomerPageAsync(pageNumber, pageSize, phone, name);
         return Ok(page);
     }
+
+    [HttpGet("{id:int}")]
+    public async Task<IActionResult> GetCustomerAsync(int id)
+    {
+        var customer = await _customerService.GetCustomerAsync(id);
+        return Ok(customer);
+    }
 }

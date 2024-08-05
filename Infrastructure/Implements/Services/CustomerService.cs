@@ -24,4 +24,10 @@ public class CustomerService : GenericService<Customer>, ICustomerService
         source = source.OrderByDescending(c => c.Id);
         return await OffsetPage<CustomerBasicInfo>.CreateAsync(source.ProjectToType<CustomerBasicInfo>(), pageNumber, pageSize);
     }
+
+    public async Task<CustomerDetailInfo> GetCustomerAsync(int customerId)
+    {
+        var customer = await context.GetByIdAsync<Customer>(customerId) ?? throw new KeyNotFoundException();
+        return customer.Adapt<CustomerDetailInfo>();
+    }
 }

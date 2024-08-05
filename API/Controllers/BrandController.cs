@@ -25,7 +25,7 @@ public class BrandController : Controller
         return Ok(page);
     }
 
-    [HttpGet("{id}")]
+    [HttpGet("{id:int}")]
     public async Task<IActionResult> GetBrandAsync(int id)
     {
         var brand = await _brandService.GetBrandAsync(id);
