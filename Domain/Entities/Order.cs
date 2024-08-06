@@ -10,6 +10,7 @@ public class Order : BaseEntity
     public DateTime CreatedAt { get; set; }
     public decimal Total { get; set; }
     public OrderStatus Status { get; set; }
+    public string Address { get; set; }
     public List<Trace> Traces { get; set; }
     public virtual HashSet<OrderDetail> Details { get; set; }
     public class Trace

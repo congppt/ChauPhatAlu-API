@@ -23,6 +23,8 @@ public class OffsetPage<T>
 
     public static async Task<OffsetPage<T>> CreateAsync(IQueryable<T> source, int pageNumber, int pageSize)
     {
+        if (pageNumber < 1) throw new ArgumentException();
+        if (pageSize <= 0) throw new ArgumentException();
         var count = await source.CountAsync();
         var items = await source.Skip((pageNumber - 1) * pageSize).Take(pageSize).ToListAsync();
         return new OffsetPage<T>(items, count, pageNumber, pageSize);

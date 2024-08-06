@@ -14,7 +14,7 @@ public class CustomerService : GenericService<Customer>, ICustomerService
     {
     }
 
-    public async Task<OffsetPage<CustomerBasicInfo>> GetCustomerPageAsync(int pageNumber, int pageSize, string? phone, string? name)
+    public async Task<OffsetPage<BasicCustomerInfo>> GetCustomerPageAsync(int pageNumber, int pageSize, string? phone, string? name)
     {
         var source = context.GetUntrackedQuery<Customer>();
         if (!string.IsNullOrWhiteSpace(phone))
@@ -22,12 +22,12 @@ public class CustomerService : GenericService<Customer>, ICustomerService
         if (!string.IsNullOrWhiteSpace(name))
             source = source.Where(c => EF.Functions.ILike(c.Name, $"%{name}%"));
         source = source.OrderByDescending(c => c.Id);
-        return await OffsetPage<CustomerBasicInfo>.CreateAsync(source.ProjectToType<CustomerBasicInfo>(), pageNumber, pageSize);
+        return await OffsetPage<BasicCustomerInfo>.CreateAsync(source.ProjectToType<BasicCustomerInfo>(), pageNumber, pageSize);
     }
 
-    public async Task<CustomerDetailInfo> GetCustomerAsync(int customerId)
+    public async Task<DetailCustomerInfo> GetCustomerAsync(int customerId)
     {
         var customer = await context.GetByIdAsync<Customer>(customerId) ?? throw new KeyNotFoundException();
-        return customer.Adapt<CustomerDetailInfo>();
+        return customer.Adapt<DetailCustomerInfo>();
     }
 }

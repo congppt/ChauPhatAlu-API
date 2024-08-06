@@ -7,6 +7,7 @@ namespace Application.Interfaces.Services;
 
 public interface IOrderService : IGenericService<Order>
 {
-    Task<OffsetPage<OrderBasicInfo>> GetOrderPageAsync(int pageNumber, int pageSize, OrderStatus? status,
+    Task<OffsetPage<BasicOrderInfo>> GetOrderPageAsync(int pageNumber, int pageSize, OrderStatus? status,
         int? customerId, DateTime? minDate, DateTime? maxDate);
+    Task<DetailOrderInfo> GetOrderAsync(int orderId);
 }

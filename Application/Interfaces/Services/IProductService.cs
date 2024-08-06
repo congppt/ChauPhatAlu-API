@@ -7,8 +7,8 @@ namespace Application.Interfaces.Services;
 
 public interface IProductService : IGenericService<Product>
 {
-    Task<OffsetPage<ProductBasicInfo>> GetProductPageAsync(int pageNumber, int pageSize, int? brandId, Category? category,
+    Task<OffsetPage<BasicProductInfo>> GetProductPageAsync(int pageNumber, int pageSize, int? brandId, Category? category,
         int minPrice, int? maxPrice);
 
-    Task<ProductDetailInfo> GetProductAsync(int productId);
+    Task<DetailProductInfo> GetProductAsync(int productId);
 }

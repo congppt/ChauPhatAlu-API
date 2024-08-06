@@ -7,6 +7,6 @@ namespace Application.Interfaces.Services;
 
 public interface IBrandService : IGenericService<Brand>
 {
-    Task<OffsetPage<BrandBasicInfo>> GetBrandPageAsync(int pageNumber, int pageSize, Category? category, string? name);
-    Task<BrandDetailInfo> GetBrandAsync(int brandId);
+    Task<OffsetPage<BasicBrandInfo>> GetBrandPageAsync(int pageNumber, int pageSize, Category? category, string? name);
+    Task<DetailBrandInfo> GetBrandAsync(int brandId);
 }

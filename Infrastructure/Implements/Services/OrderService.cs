@@ -6,6 +6,7 @@ using Application.Models.Order;
 using ChauPhatAluminium.Entities;
 using ChauPhatAluminium.Enums;
 using Mapster;
+using Microsoft.EntityFrameworkCore;
 
 namespace Infrastructure.Implements.Services;
 
@@ -15,7 +16,7 @@ public class OrderService : GenericService<Order>, IOrderService
     {
     }
 
-    public async Task<OffsetPage<OrderBasicInfo>> GetOrderPageAsync(int pageNumber, int pageSize, OrderStatus? status, int? customerId, DateTime? minDate,
+    public async Task<OffsetPage<BasicOrderInfo>> GetOrderPageAsync(int pageNumber, int pageSize, OrderStatus? status, int? customerId, DateTime? minDate,
         DateTime? maxDate)
     {
         var now = timeProvider.Now();
@@ -31,7 +32,14 @@ public class OrderService : GenericService<Order>, IOrderService
         if (maxDate.HasValue)
             source = source.Where(o => o.CreatedAt <= maxDate);
         source = source.OrderByDescending(o => o.Id);
-        return await OffsetPage<OrderBasicInfo>.CreateAsync(source.ProjectToType<OrderBasicInfo>(), pageNumber,
+        return await OffsetPage<BasicOrderInfo>.CreateAsync(source.ProjectToType<BasicOrderInfo>(), pageNumber,
             pageSize);
+    }
+
+    public async Task<DetailOrderInfo> GetOrderAsync(int orderId)
+    {
+        var order = await context.GetUntrackedQuery<Order>().Include(o => o.Details).ThenInclude(o => o.Product)
+            .FirstOrDefaultAsync(o => o.Id == orderId) ?? throw new KeyNotFoundException();
+        return order.Adapt<DetailOrderInfo>();
     }
 }

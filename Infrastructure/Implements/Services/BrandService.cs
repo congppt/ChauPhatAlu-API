@@ -16,7 +16,7 @@ public class BrandService : GenericService<Brand>, IBrandService
     {
     }
 
-    public async Task<OffsetPage<BrandBasicInfo>> GetBrandPageAsync(int pageNumber, int pageSize, Category? category, string? name)
+    public async Task<OffsetPage<BasicBrandInfo>> GetBrandPageAsync(int pageNumber, int pageSize, Category? category, string? name)
     {
         var source = context.GetUntrackedQuery<Brand>();
         if (category.HasValue)
@@ -24,12 +24,12 @@ public class BrandService : GenericService<Brand>, IBrandService
         if (!string.IsNullOrWhiteSpace(name))
             source = source.Where(b => EF.Functions.ILike(b.Name, $"%{name}%"));
         source = source.OrderByDescending(b => b.Id);
-        return await OffsetPage<BrandBasicInfo>.CreateAsync(source.ProjectToType<BrandBasicInfo>(), pageNumber, pageSize);
+        return await OffsetPage<BasicBrandInfo>.CreateAsync(source.ProjectToType<BasicBrandInfo>(), pageNumber, pageSize);
     }
 
-    public async Task<BrandDetailInfo> GetBrandAsync(int brandId)
+    public async Task<DetailBrandInfo> GetBrandAsync(int brandId)
     {
         var brand = await context.GetByIdAsync<Brand>(brandId) ?? throw new KeyNotFoundException();
-        return brand.Adapt<BrandDetailInfo>();
+        return brand.Adapt<DetailBrandInfo>();
     }
 }
