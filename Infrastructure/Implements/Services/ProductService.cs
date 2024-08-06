@@ -7,16 +7,19 @@ using ChauPhatAluminium.Constants;
 using ChauPhatAluminium.Entities;
 using ChauPhatAluminium.Enums;
 using Mapster;
+using Microsoft.EntityFrameworkCore;
 
 namespace Infrastructure.Implements.Services;
 
 public class ProductService : GenericService<Product>, IProductService
 {
-    public ProductService(IAppDbContext context, ITimeProvider timeProvider, IClaimProvider claimProvider) : base(context, timeProvider, claimProvider)
+    public ProductService(IAppDbContext context, ITimeProvider timeProvider, IClaimProvider claimProvider) : base(
+        context, timeProvider, claimProvider)
     {
     }
 
-    public async Task<OffsetPage<ProductBasicInfo>> GetProductPageAsync(int pageNumber, int pageSize, int? brandId, Category? category, int minPrice, int? maxPrice)
+    public async Task<OffsetPage<ProductBasicInfo>> GetProductPageAsync(int pageNumber, int pageSize, int? brandId,
+        Category? category, int minPrice, int? maxPrice)
     {
         if (maxPrice < minPrice) throw new ArgumentException();
         var source = context.GetUntrackedQuery<Product>();
@@ -37,7 +40,7 @@ public class ProductService : GenericService<Product>, IProductService
 
     public async Task<ProductDetailInfo> GetProductAsync(int productId)
     {
-        var product = await context.GetByIdAsync<Product>(productId) ?? throw new KeyNotFoundException();
+        var product = await context.GetByIdAsync<Product>(productId, p => p.Brand) ?? throw new KeyNotFoundException();
         var role = claimProvider.GetClaim(ClaimConstants.Role, Role.Guest);
         if (!product.IsAvailable && role == Role.Guest) throw new KeyNotFoundException();
         return product.Adapt<ProductDetailInfo>();

@@ -1,4 +1,5 @@
-﻿using ChauPhatAluminium.Common;
+﻿using System.Linq.Expressions;
+using ChauPhatAluminium.Common;
 using ChauPhatAluminium.Entities;
 using Microsoft.EntityFrameworkCore;
 
@@ -12,5 +13,5 @@ public interface IAppDbContext
     DbSet<OrderDetail> OrderDetails { get; }
     DbSet<Product> Products { get; }
     IQueryable<T> GetUntrackedQuery<T>() where T : BaseEntity;
-    Task<T?> GetByIdAsync<T>(int id) where T : BaseEntity;
+    Task<T?> GetByIdAsync<T>(int id, params Expression<Func<T, object>>[] navigations) where T : BaseEntity;
 }

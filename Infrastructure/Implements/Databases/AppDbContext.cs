@@ -1,4 +1,5 @@
-﻿using System.Reflection;
+﻿using System.Linq.Expressions;
+using System.Reflection;
 using Application.Interfaces.Databases;
 using ChauPhatAluminium.Common;
 using ChauPhatAluminium.Entities;
@@ -22,9 +23,12 @@ public class AppDbContext : DbContext, IAppDbContext
         return this.Set<T>().AsNoTrackingWithIdentityResolution();
     }
 
-    public async Task<T?> GetByIdAsync<T>(int id) where T : BaseEntity
+    public async Task<T?> GetByIdAsync<T>(int id, params Expression<Func<T, object>>[] navigations) where T : BaseEntity
     {
-        return await Set<T>().FindAsync(id);
+        var source = Set<T>().AsQueryable();
+        source = navigations.Aggregate(source, (current, navigation) => current.Include(navigation));
+
+        return await source.FirstOrDefaultAsync(e => e.Id == id);
     }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
