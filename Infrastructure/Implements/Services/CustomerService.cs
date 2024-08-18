@@ -30,4 +30,12 @@ public class CustomerService : GenericService<Customer>, ICustomerService
         var customer = await context.GetByIdAsync<Customer>(customerId, ct) ?? throw new KeyNotFoundException();
         return customer.Adapt<DetailCustomerInfo>();
     }
+
+    public async Task<DetailCustomerInfo> CreateCustomerAsync(CustomerCreate model, CancellationToken ct = default)
+    {
+        var customer = model.Adapt<Customer>();
+        await context.Customers.AddAsync(customer, ct);
+        if (await context.SaveChangesAsync(ct)) return customer.Adapt<DetailCustomerInfo>();
+        throw new Exception();
+    }
 }

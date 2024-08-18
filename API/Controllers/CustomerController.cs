@@ -1,5 +1,6 @@
 ﻿using API.Common;
 using Application.Interfaces.Services;
+using Application.Models.Customer;
 using Microsoft.AspNetCore.Mvc;
 
 namespace API.Controllers;
@@ -28,5 +29,12 @@ public class CustomerController : Controller
     {
         var customer = await _customerService.GetCustomerAsync(id);
         return Ok(customer);
+    }
+
+    [HttpPost]
+    public async Task<IActionResult> CreateCustomerAsync([FromBody] CustomerCreate model)
+    {
+        var customer = await _customerService.CreateCustomerAsync(model);
+        return Created($"{Request.Path}/{customer.Id}", customer);
     }
 }

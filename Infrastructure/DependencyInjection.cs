@@ -23,7 +23,14 @@ public static class DependencyInjection
         services.AddMassTransit(cfg =>
         {
             cfg.SetKebabCaseEndpointNameFormatter();
-            cfg.UsingRabbitMq();
+            cfg.UsingRabbitMq((context, busCfg) =>
+            {
+                busCfg.Host("rabbit.localhost","/", hostCfg =>
+                {
+                    hostCfg.Username("guest");
+                    hostCfg.Password("guest");
+                });
+            });
         });
         services.AddSingleton<ITimeProvider, TimeProvider>();
         services.AddScoped<IBrandService, BrandService>();
