@@ -20,15 +20,19 @@ public class AppDbContext : DbContext, IAppDbContext
     public DbSet<Product> Products { get; set; }
     public IQueryable<T> GetUntrackedQuery<T>() where T : BaseEntity
     {
-        return this.Set<T>().AsNoTrackingWithIdentityResolution();
+        return Set<T>().AsNoTrackingWithIdentityResolution();
     }
 
-    public async Task<T?> GetByIdAsync<T>(int id, params Expression<Func<T, object>>[] navigations) where T : BaseEntity
+    public async Task<T?> GetByIdAsync<T>(int id, CancellationToken ct = default, params Expression<Func<T, object>>[] navigations) where T : BaseEntity
     {
         var source = Set<T>().AsQueryable();
         source = navigations.Aggregate(source, (current, navigation) => current.Include(navigation));
+        return await source.FirstOrDefaultAsync(e => e.Id == id, ct);
+    }
 
-        return await source.FirstOrDefaultAsync(e => e.Id == id);
+    public async Task<bool> SaveChangesAsync(CancellationToken ct = default)
+    {
+        return await base.SaveChangesAsync(ct) > 0;
     }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)

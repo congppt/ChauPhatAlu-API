@@ -1,5 +1,6 @@
 ﻿using API.Common;
 using Application.Interfaces.Services;
+using Application.Models.Brand;
 using ChauPhatAluminium.Enums;
 using Microsoft.AspNetCore.Mvc;
 
@@ -30,5 +31,12 @@ public class BrandController : Controller
     {
         var brand = await _brandService.GetBrandAsync(id);
         return Ok(brand);
+    }
+
+    [HttpPost]
+    public async Task<IActionResult> CreateBrandAsync([FromBody] BrandCreate model)
+    {
+        var topic = await _brandService.CreateBrandAsync(model);
+        return Accepted(value: topic);
     }
 }

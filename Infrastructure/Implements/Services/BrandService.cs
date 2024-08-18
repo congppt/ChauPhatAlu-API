@@ -16,7 +16,7 @@ public class BrandService : GenericService<Brand>, IBrandService
     {
     }
 
-    public async Task<OffsetPage<BasicBrandInfo>> GetBrandPageAsync(int pageNumber, int pageSize, Category? category, string? name)
+    public async Task<OffsetPage<BasicBrandInfo>> GetBrandPageAsync(int pageNumber, int pageSize, Category? category, string? name, CancellationToken ct = default)
     {
         var source = context.GetUntrackedQuery<Brand>();
         if (category.HasValue)
@@ -24,12 +24,20 @@ public class BrandService : GenericService<Brand>, IBrandService
         if (!string.IsNullOrWhiteSpace(name))
             source = source.Where(b => EF.Functions.ILike(b.Name, $"%{name}%"));
         source = source.OrderByDescending(b => b.Id);
-        return await OffsetPage<BasicBrandInfo>.CreateAsync(source.ProjectToType<BasicBrandInfo>(), pageNumber, pageSize);
+        return await OffsetPage<BasicBrandInfo>.CreateAsync(source.ProjectToType<BasicBrandInfo>(), pageNumber, pageSize, ct);
     }
 
-    public async Task<DetailBrandInfo> GetBrandAsync(int brandId)
+    public async Task<DetailBrandInfo> GetBrandAsync(int brandId, CancellationToken ct = default)
     {
-        var brand = await context.GetByIdAsync<Brand>(brandId) ?? throw new KeyNotFoundException();
+        var brand = await context.GetByIdAsync<Brand>(brandId, ct) ?? throw new KeyNotFoundException();
         return brand.Adapt<DetailBrandInfo>();
+    }
+
+    public async Task<DetailBrandInfo> CreateBrandAsync(BrandCreate model, CancellationToken ct = default)
+    {
+        var brand = model.Adapt<Brand>();
+        await context.Brands.AddAsync(brand, ct);
+        if (await context.SaveChangesAsync(ct)) return brand.Adapt<DetailBrandInfo>();
+        throw new Exception();
     }
 }

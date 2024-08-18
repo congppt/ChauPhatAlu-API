@@ -3,6 +3,7 @@ using Application.Interfaces.Providers;
 using Application.Interfaces.Services;
 using Infrastructure.Implements.Databases;
 using Infrastructure.Implements.Services;
+using MassTransit;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -18,6 +19,11 @@ public static class DependencyInjection
         {
             var dataSource = new NpgsqlDataSourceBuilder(config.GetConnectionString("ChauPhat")).Build();
             builder.UseNpgsql(dataSource, opt => opt.UseQuerySplittingBehavior(QuerySplittingBehavior.SplitQuery));
+        });
+        services.AddMassTransit(cfg =>
+        {
+            cfg.SetKebabCaseEndpointNameFormatter();
+            cfg.UsingRabbitMq();
         });
         services.AddSingleton<ITimeProvider, TimeProvider>();
         services.AddScoped<IBrandService, BrandService>();

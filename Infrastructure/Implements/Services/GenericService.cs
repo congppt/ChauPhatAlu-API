@@ -2,6 +2,7 @@
 using Application.Interfaces.Providers;
 using Application.Interfaces.Services;
 using ChauPhatAluminium.Common;
+using MassTransit;
 
 namespace Infrastructure.Implements.Services;
 
@@ -17,4 +18,5 @@ public class GenericService<T> : IGenericService<T> where T : BaseEntity
     protected readonly IAppDbContext context;
     protected readonly ITimeProvider timeProvider;
     protected readonly IClaimProvider claimProvider;
+    protected readonly IPublishEndpoint producer;
 }
