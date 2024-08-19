@@ -31,10 +31,10 @@ public class CustomerController : Controller
         return Ok(customer);
     }
 
-    [HttpPost]
-    public async Task<IActionResult> CreateCustomerAsync([FromBody] CustomerCreate model)
-    {
-        var customer = await _customerService.CreateCustomerAsync(model);
-        return Created($"{Request.Path}/{customer.Id}", customer);
-    }
+    // [HttpPost]
+    // public async Task<IActionResult> CreateCustomerAsync([FromBody] CustomerCreate model)
+    // {
+    //     var customer = await _customerService.CreateCustomerAsync(model);
+    //     return Created($"{Request.Path}/{customer.Id}", customer);
+    // }
 }

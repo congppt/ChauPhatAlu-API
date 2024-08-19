@@ -8,6 +8,7 @@ public class ProductCreate
 {
     public string Name { get; set; }
     public int BrandId { get; set; }
+    public string SKU { get; set; }
     public Category Category { get; set; }
     public decimal Price { get; set; }
     public Unit Unit { get; set; }

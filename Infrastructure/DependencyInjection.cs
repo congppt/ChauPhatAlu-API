@@ -25,11 +25,12 @@ public static class DependencyInjection
             cfg.SetKebabCaseEndpointNameFormatter();
             cfg.UsingRabbitMq((context, busCfg) =>
             {
-                busCfg.Host("rabbit.localhost","/", hostCfg =>
+                busCfg.Host(config["MessageBroker:RabbitMQ:Host"],config["MessageBroker:RabbitMQ:VirtualHost"], hostCfg =>
                 {
-                    hostCfg.Username("guest");
-                    hostCfg.Password("guest");
+                    hostCfg.Username(config["MessageBroker:RabbitMQ:Username"]!);
+                    hostCfg.Password(config["MessageBroker:RabbitMQ:Password"]!);
                 });
+                busCfg.ConfigureEndpoints(context);
             });
         });
         services.AddSingleton<ITimeProvider, TimeProvider>();

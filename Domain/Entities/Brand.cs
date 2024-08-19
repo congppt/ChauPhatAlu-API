@@ -8,6 +8,5 @@ public class Brand : BaseEntity
 {
     [Column(TypeName = "citext")]
     public string Name { get; set; }
-    public List<Category> Categories { get; set; }
     public virtual HashSet<Product> Products { get; set; }
 }

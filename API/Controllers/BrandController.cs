@@ -19,10 +19,9 @@ public class BrandController : Controller
     }
 
     [HttpGet]
-    public async Task<IActionResult> GetBrandPageAsync(int pageNumber = 1, int pageSize = 10, Category? category = null,
-        string? name = null)
+    public async Task<IActionResult> GetBrandPageAsync(int pageNumber = 1, int pageSize = 10, string? sku = null, string? name = null)
     {
-        var page = await _brandService.GetBrandPageAsync(pageNumber, pageSize, category, name);
+        var page = await _brandService.GetBrandPageAsync(pageNumber, pageSize, name);
         return Ok(page);
     }
 
@@ -33,10 +32,10 @@ public class BrandController : Controller
         return Ok(brand);
     }
 
-    [HttpPost]
-    public async Task<IActionResult> CreateBrandAsync([FromBody] BrandCreate model)
-    {
-        var brand = await _brandService.CreateBrandAsync(model);
-        return Created($"{Request.Path}/{brand.Id}", brand);
-    }
+    // [HttpPost]
+    // public async Task<IActionResult> CreateBrandAsync([FromBody] BrandCreate model)
+    // {
+    //     var brand = await _brandService.CreateBrandAsync(model);
+    //     return Created($"{Request.Path}/{brand.Id}", brand);
+    // }
 }

@@ -6,5 +6,4 @@ namespace Application.Models.Brand;
 public class BrandCreate
 {
     public string Name { get; set; }
-    public List<Category> Categories { get; set; }
 }

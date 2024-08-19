@@ -16,11 +16,9 @@ public class BrandService : GenericService<Brand>, IBrandService
     {
     }
 
-    public async Task<OffsetPage<BasicBrandInfo>> GetBrandPageAsync(int pageNumber, int pageSize, Category? category, string? name, CancellationToken ct = default)
+    public async Task<OffsetPage<BasicBrandInfo>> GetBrandPageAsync(int pageNumber, int pageSize, string? name, CancellationToken ct = default)
     {
         var source = context.GetUntrackedQuery<Brand>();
-        if (category.HasValue)
-            source = source.Where(b => b.Categories.Contains(category.Value));
         if (!string.IsNullOrWhiteSpace(name))
             source = source.Where(b => EF.Functions.ILike(b.Name, $"%{name}%"));
         source = source.OrderByDescending(b => b.Id);
