@@ -25,7 +25,7 @@ public static class DependencyInjection
             cfg.SetKebabCaseEndpointNameFormatter();
             cfg.UsingRabbitMq((context, busCfg) =>
             {
-                busCfg.Host(config["MessageBroker:RabbitMQ:Host"],config["MessageBroker:RabbitMQ:VirtualHost"], hostCfg =>
+                busCfg.Host(new Uri(config["MessageBroker:RabbitMQ:Host"]!)/*,config["MessageBroker:RabbitMQ:VirtualHost"]*/, hostCfg =>
                 {
                     hostCfg.Username(config["MessageBroker:RabbitMQ:Username"]!);
                     hostCfg.Password(config["MessageBroker:RabbitMQ:Password"]!);

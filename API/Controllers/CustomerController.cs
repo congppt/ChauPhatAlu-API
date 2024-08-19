@@ -1,6 +1,7 @@
 ﻿using API.Common;
 using Application.Interfaces.Services;
 using Application.Models.Customer;
+using MassTransit;
 using Microsoft.AspNetCore.Mvc;
 
 namespace API.Controllers;
@@ -11,10 +12,11 @@ namespace API.Controllers;
 public class CustomerController : Controller
 {
     private readonly ICustomerService _customerService;
-
-    public CustomerController(ICustomerService customerService)
+    private readonly IPublishEndpoint _publisher;
+    public CustomerController(ICustomerService customerService, IPublishEndpoint publisher)
     {
         _customerService = customerService;
+        _publisher = publisher;
     }
 
     [HttpGet]
@@ -31,10 +33,10 @@ public class CustomerController : Controller
         return Ok(customer);
     }
 
-    // [HttpPost]
-    // public async Task<IActionResult> CreateCustomerAsync([FromBody] CustomerCreate model)
-    // {
-    //     var customer = await _customerService.CreateCustomerAsync(model);
-    //     return Created($"{Request.Path}/{customer.Id}", customer);
-    // }
+    [HttpPost]
+    public async Task<IActionResult> CreateCustomerAsync([FromBody] CustomerCreate model)
+    {
+        await _publisher.Publish<CustomerCreate>(model);
+        return Accepted();
+    }
 }
