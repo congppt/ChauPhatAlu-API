@@ -1,6 +1,9 @@
 ﻿using API.Common;
 using Application.Interfaces.Services;
+using Application.Models.Common;
+using Application.Models.Product;
 using ChauPhatAluminium.Enums;
+using MassTransit;
 using Microsoft.AspNetCore.Mvc;
 
 namespace API.Controllers;
@@ -11,10 +14,12 @@ namespace API.Controllers;
 public class ProductController : Controller
 {
     private readonly IProductService _productService;
+    private readonly IPublishEndpoint _publisher;
 
-    public ProductController(IProductService productService)
+    public ProductController(IProductService productService, IPublishEndpoint publisher)
     {
         _productService = productService;
+        _publisher = publisher;
     }
 
     [HttpGet]
@@ -26,10 +31,17 @@ public class ProductController : Controller
         return Ok(page);
     }
 
-    // [HttpGet("{id:int}")]
-    // public async Task<IActionResult> GetProductAsync(int id)
+    [HttpGet("{id:int}")]
+    public async Task<IActionResult> GetProductAsync(int id)
+    {
+        var product = await _productService.GetProductAsync(id);
+        return Ok(product);
+    }
+
+    // [HttpPost]
+    // public async Task<IActionResult> CreateProductAsync([FromBody] ProductCreate model)
     // {
-    //     var product = await _productService.GetProductAsync(id);
-    //     return Ok(product);
+    //     var message = new Message<ProductCreate> { Data = model };
+    //     await _publisher.
     // }
 }

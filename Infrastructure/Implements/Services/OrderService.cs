@@ -6,13 +6,15 @@ using Application.Models.Order;
 using ChauPhatAluminium.Entities;
 using ChauPhatAluminium.Enums;
 using Mapster;
+using MassTransit;
 using Microsoft.EntityFrameworkCore;
 
 namespace Infrastructure.Implements.Services;
 
 public class OrderService : GenericService<Order>, IOrderService
 {
-    public OrderService(IAppDbContext context, ITimeProvider timeProvider, IClaimProvider claimProvider) : base(context, timeProvider, claimProvider)
+    public OrderService(IAppDbContext context, ITimeProvider timeProvider, IClaimProvider claimProvider,
+        IPublishEndpoint publishProducer) : base(context, timeProvider, claimProvider, publishProducer)
     {
     }
 

@@ -8,15 +8,17 @@ namespace Infrastructure.Implements.Services;
 
 public class GenericService<T> : IGenericService<T> where T : BaseEntity
 {
-    public GenericService(IAppDbContext context, ITimeProvider timeProvider, IClaimProvider claimProvider)
+    public GenericService(IAppDbContext context, ITimeProvider timeProvider, IClaimProvider claimProvider,
+        IPublishEndpoint publishProducer)
     {
         this.context = context;
         this.timeProvider = timeProvider;
         this.claimProvider = claimProvider;
+        this.publishProducer = publishProducer;
     }
 
     protected readonly IAppDbContext context;
     protected readonly ITimeProvider timeProvider;
     protected readonly IClaimProvider claimProvider;
-    protected readonly IPublishEndpoint producer;
+    protected readonly IPublishEndpoint publishProducer;
 }

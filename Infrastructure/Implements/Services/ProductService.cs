@@ -7,14 +7,14 @@ using ChauPhatAluminium.Constants;
 using ChauPhatAluminium.Entities;
 using ChauPhatAluminium.Enums;
 using Mapster;
+using MassTransit;
 using Microsoft.EntityFrameworkCore;
 
 namespace Infrastructure.Implements.Services;
 
 public class ProductService : GenericService<Product>, IProductService
 {
-    public ProductService(IAppDbContext context, ITimeProvider timeProvider, IClaimProvider claimProvider) : base(
-        context, timeProvider, claimProvider)
+    public ProductService(IAppDbContext context, ITimeProvider timeProvider, IClaimProvider claimProvider, IPublishEndpoint publishProducer) : base(context, timeProvider, claimProvider, publishProducer)
     {
     }
 

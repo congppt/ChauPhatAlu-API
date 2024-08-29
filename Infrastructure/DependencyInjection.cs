@@ -1,6 +1,7 @@
 ﻿using Application.Interfaces.Databases;
 using Application.Interfaces.Providers;
 using Application.Interfaces.Services;
+using Application.Models.Customer;
 using Infrastructure.Implements.Databases;
 using Infrastructure.Implements.Services;
 using MassTransit;
@@ -8,6 +9,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Npgsql;
+using RabbitMQ.Client;
 using TimeProvider = Infrastructure.Implements.Providers.TimeProvider;
 namespace Infrastructure;
 
@@ -25,10 +27,18 @@ public static class DependencyInjection
             cfg.SetKebabCaseEndpointNameFormatter();
             cfg.UsingRabbitMq((context, busCfg) =>
             {
-                busCfg.Host(new Uri(config["MessageBroker:RabbitMQ:Host"]!)/*,config["MessageBroker:RabbitMQ:VirtualHost"]*/, hostCfg =>
+                busCfg.Host(config["MessageBroker:RabbitMQ:Host"],config["MessageBroker:RabbitMQ:VirtualHost"], hostCfg =>
                 {
                     hostCfg.Username(config["MessageBroker:RabbitMQ:Username"]!);
                     hostCfg.Password(config["MessageBroker:RabbitMQ:Password"]!);
+                });
+                // busCfg.Send<CustomerCreate>(x =>
+                // {
+                //     x.UseRoutingKeyFormatter(ctx => typeof(CustomerCreate).FullName);
+                // });
+                busCfg.Publish<CustomerCreate>(topo =>
+                {
+                    topo.ExchangeType = ExchangeType.Direct;
                 });
                 busCfg.ConfigureEndpoints(context);
             });

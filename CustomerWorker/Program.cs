@@ -1,10 +1,12 @@
 using System.Reflection;
 using Application.Interfaces.Databases;
-using Application.Interfaces.Providers;
+using Application.Models.Customer;
+using ConsumerWorker.Consumers;
 using Infrastructure.Implements.Databases;
 using MassTransit;
 using Microsoft.EntityFrameworkCore;
 using Npgsql;
+using RabbitMQ.Client;
 
 var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddDbContext<IAppDbContext, AppDbContext>(dbBuilder =>
@@ -15,16 +17,16 @@ builder.Services.AddDbContext<IAppDbContext, AppDbContext>(dbBuilder =>
 builder.Services.AddMassTransit(cfg =>
 {
     cfg.SetKebabCaseEndpointNameFormatter();
+    cfg.AddConsumers(Assembly.GetExecutingAssembly());
     cfg.UsingRabbitMq((context, busCfg) =>
     {
-        busCfg.Host(new Uri(builder.Configuration["MessageBroker:RabbitMQ:Host"]!)/*,builder.Configuration["MessageBroker:RabbitMQ:VirtualHost"]*/, hostCfg =>
+        busCfg.Host(builder.Configuration["MessageBroker:RabbitMQ:Host"], builder.Configuration["MessageBroker:RabbitMQ:VirtualHost"], hostCfg =>
         {
             hostCfg.Username(builder.Configuration["MessageBroker:RabbitMQ:Username"]!);
             hostCfg.Password(builder.Configuration["MessageBroker:RabbitMQ:Password"]!);
         });
         busCfg.ConfigureEndpoints(context);
     });
-    cfg.AddConsumers(Assembly.GetExecutingAssembly());
 });
 
 var app = builder.Build();

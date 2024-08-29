@@ -13,7 +13,6 @@ public class ProductCreate
     public decimal Price { get; set; }
     public Unit Unit { get; set; }
     public string Description { get; set; }
-    public string? ImgPath { get; set; }
     public int WarrantyMonth { get; set; }
     public bool IsAvailable { get; set; }
 }
