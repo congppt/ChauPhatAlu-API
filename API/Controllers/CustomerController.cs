@@ -33,7 +33,7 @@ public class CustomerController : Controller
     }
 
     [HttpPost]
-    public async Task<IActionResult> CreateCustomerAsync([FromBody] CustomerCreate model)
+    public async Task<IActionResult> CreateCustomerAsync([FromBody] CreateCustomer model)
     {
         var guid = await _customerService.CreateCustomerAsync(model);
         return Accepted(guid);

@@ -37,7 +37,7 @@ public class CustomerService : GenericService<Customer>, ICustomerService
         return customer.Adapt<DetailCustomerInfo>();
     }
 
-    public async Task<Guid> CreateCustomerAsync(CustomerCreate model)
+    public async Task<Guid> CreateCustomerAsync(CreateCustomer model)
     {
         await publishProducer.Publish(model);
         return model.Guid;

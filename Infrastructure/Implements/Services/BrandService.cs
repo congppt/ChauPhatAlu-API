@@ -33,7 +33,7 @@ public class BrandService : GenericService<Brand>, IBrandService
         return brand.Adapt<DetailBrandInfo>();
     }
 
-    public async Task<DetailBrandInfo> CreateBrandAsync(BrandCreate model, CancellationToken ct = default)
+    public async Task<DetailBrandInfo> CreateBrandAsync(CreateBrand model, CancellationToken ct = default)
     {
         var brand = model.Adapt<Brand>();
         await context.Brands.AddAsync(brand, ct);

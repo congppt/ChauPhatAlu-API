@@ -1,12 +1,11 @@
 using System.Reflection;
 using Application.Interfaces.Databases;
-using Application.Models.Customer;
-using ConsumerWorker.Consumers;
+using Application.Models.Brand;
+using FluentValidation;
 using Infrastructure.Implements.Databases;
 using MassTransit;
 using Microsoft.EntityFrameworkCore;
 using Npgsql;
-using RabbitMQ.Client;
 
 var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddDbContext<IAppDbContext, AppDbContext>(dbBuilder =>
@@ -28,7 +27,7 @@ builder.Services.AddMassTransit(cfg =>
         busCfg.ConfigureEndpoints(context);
     });
 });
-
+builder.Services.AddValidatorsFromAssemblyContaining<CreateBrandValidator>();
 var app = builder.Build();
 
 app.Run();

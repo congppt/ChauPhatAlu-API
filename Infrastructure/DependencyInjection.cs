@@ -36,7 +36,7 @@ public static class DependencyInjection
                 // {
                 //     x.UseRoutingKeyFormatter(ctx => typeof(CustomerCreate).FullName);
                 // });
-                busCfg.Publish<CustomerCreate>(topo =>
+                busCfg.Publish<CreateCustomer>(topo =>
                 {
                     topo.ExchangeType = ExchangeType.Direct;
                 });

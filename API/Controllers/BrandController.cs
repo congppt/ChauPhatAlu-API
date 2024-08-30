@@ -33,7 +33,7 @@ public class BrandController : Controller
     }
 
     [HttpPost]
-    public async Task<IActionResult> CreateBrandAsync([FromBody] BrandCreate model)
+    public async Task<IActionResult> CreateBrandAsync([FromBody] CreateBrand model)
     {
         var brand = await _brandService.CreateBrandAsync(model);
         return Created($"{Request.Path}/{brand.Id}", brand);
