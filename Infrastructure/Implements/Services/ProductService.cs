@@ -50,11 +50,9 @@ public class ProductService : GenericService<Product>, IProductService
         return product.Adapt<DetailProductInfo>();
     }
 
-    public async Task<DetailProductInfo> CreateProductAsync(ProductCreate model)
+    public async Task<Guid> CreateProductAsync(CreateProduct model)
     {
-        var product = model.Adapt<Product>();
-        await context.Products.AddAsync(product);
-        if (await context.SaveChangesAsync()) return product.Adapt<DetailProductInfo>();
-        throw new Exception();
+        await publishProducer.Publish(model);
+        return model.Guid;
     }
 }

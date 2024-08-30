@@ -1,26 +1,26 @@
 ﻿using System.Net;
 using Application.Interfaces.Databases;
 using Application.Models.Common;
-using Application.Models.Customer;
+using Application.Models.Product;
 using ChauPhatAluminium.Entities;
 using FluentValidation;
 using Mapster;
 using MassTransit;
 using RabbitMQ.Client;
 
-namespace ConsumerWorker.Consumers;
+namespace ProductWorker.Consumers;
 
-public class CreateCustomerConsumer : IConsumer<CreateCustomer>
+public class CreateProductConsumer : IConsumer<CreateProduct>
 {
     private readonly IAppDbContext _dbContext;
-    private readonly IValidator<CreateCustomer> _validator;
-    public CreateCustomerConsumer(IAppDbContext dbContext, IValidator<CreateCustomer> validator)
+    private readonly IValidator<CreateProduct> _validator;
+    public CreateProductConsumer(IAppDbContext dbContext, IValidator<CreateProduct> validator)
     {
         _dbContext = dbContext;
         _validator = validator;
     }
 
-    public async Task Consume(ConsumeContext<CreateCustomer> context)
+    public async Task Consume(ConsumeContext<CreateProduct> context)
     {
         var validation = await _validator.ValidateAsync(context.Message);
         var response = new MessageResult
@@ -32,11 +32,11 @@ public class CreateCustomerConsumer : IConsumer<CreateCustomer>
         {
             try
             {
-                var customer = context.Message.Adapt<Customer>();
-                await _dbContext.Customers.AddAsync(customer);
+                var customer = context.Message.Adapt<Product>();
+                await _dbContext.Products.AddAsync(customer);
                 await _dbContext.SaveChangesAsync();
                 response.StatusCode = HttpStatusCode.Created;
-                response.Data = customer.Adapt<DetailCustomerInfo>();
+                response.Data = customer.Adapt<DetailProductInfo>();
             }
             catch (Exception ex)
             {
@@ -46,16 +46,16 @@ public class CreateCustomerConsumer : IConsumer<CreateCustomer>
     }
     
 }
-public class CreateCustomerConsumerDefinition : ConsumerDefinition<CreateCustomerConsumer>
+public class CreateProductConsumerDefinition : ConsumerDefinition<CreateProductConsumer>
 {
     protected override void ConfigureConsumer(IReceiveEndpointConfigurator endpointConfigurator,
-        IConsumerConfigurator<CreateCustomerConsumer> consumerConfigurator)
+        IConsumerConfigurator<CreateProductConsumer> consumerConfigurator)
     {
         endpointConfigurator.ConfigureConsumeTopology = false;
     
         if (endpointConfigurator is IRabbitMqReceiveEndpointConfigurator rmq)
         {
-            rmq.Bind<CreateCustomer>(x =>
+            rmq.Bind<CreateProduct>(x =>
             {
                 x.ExchangeType = ExchangeType.Direct;
             });

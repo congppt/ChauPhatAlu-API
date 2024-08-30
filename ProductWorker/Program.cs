@@ -1,7 +1,6 @@
 using System.Reflection;
 using Application.Interfaces.Databases;
-using Application.Models.Brand;
-using Application.Models.Customer;
+using Application.Models.Product;
 using FluentValidation;
 using Infrastructure.Implements.Databases;
 using MassTransit;
@@ -28,7 +27,7 @@ builder.Services.AddMassTransit(cfg =>
         busCfg.ConfigureEndpoints(context);
     });
 });
-builder.Services.AddScoped<IValidator<CreateCustomer>, CreateCustomerValidator>();
+builder.Services.AddScoped<IValidator<CreateProduct>, CreateProductValidator>();
 var app = builder.Build();
 
 app.Run();

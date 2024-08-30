@@ -38,10 +38,10 @@ public class ProductController : Controller
         return Ok(product);
     }
 
-    // [HttpPost]
-    // public async Task<IActionResult> CreateProductAsync([FromBody] ProductCreate model)
-    // {
-    //     var message = new Message<ProductCreate> { Data = model };
-    //     await _publisher.
-    // }
+    [HttpPost]
+    public async Task<IActionResult> CreateProductAsync([FromBody] CreateProduct model)
+    {
+        var guid = await _productService.CreateProductAsync(model);
+        return Accepted(guid);
+    }
 }
