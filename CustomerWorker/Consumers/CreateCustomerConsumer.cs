@@ -8,7 +8,7 @@ using Mapster;
 using MassTransit;
 using RabbitMQ.Client;
 
-namespace ConsumerWorker.Consumers;
+namespace CustomerWorker.Consumers;
 
 public class CreateCustomerConsumer : IConsumer<CreateCustomer>
 {

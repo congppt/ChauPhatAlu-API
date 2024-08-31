@@ -7,7 +7,7 @@ using MassTransit;
 using Microsoft.EntityFrameworkCore;
 using Npgsql;
 
-var builder = WebApplication.CreateBuilder(args);
+var builder = Host.CreateApplicationBuilder(args);
 builder.Services.AddDbContext<IAppDbContext, AppDbContext>(dbBuilder =>
 {
     var dataSource = new NpgsqlDataSourceBuilder(builder.Configuration.GetConnectionString("ChauPhat")).Build();
@@ -28,6 +28,6 @@ builder.Services.AddMassTransit(cfg =>
     });
 });
 builder.Services.AddScoped<IValidator<CreateProduct>, CreateProductValidator>();
-var app = builder.Build();
 
-app.Run();
+var host = builder.Build();
+host.Run();
