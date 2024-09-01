@@ -23,16 +23,17 @@ public class CreateProduct
 
 public class CreateProductValidator : AbstractValidator<CreateProduct>
 {
-    private readonly IAppDbContext _context;
     public CreateProductValidator(IAppDbContext context)
     {
-        _context = context;
         RuleFor(x => x.Name).NotEmpty().Length(5, 25);
         RuleFor(x => x.BrandId).MustAsync(async (id, ct) =>
         {
-            return await _context.Brands.AnyAsync(b => b.Id == id);
+            return await context.Brands.AnyAsync(b => b.Id == id, ct);
         });
-        RuleFor(x => x.SKU).NotEmpty().Length(12);
+        RuleFor(x => x.SKU).NotEmpty().Length(12).MustAsync(async (sku, ct) =>
+        {
+            return !await context.Products.AnyAsync(p => p.SKU == sku, ct);
+        });
         RuleFor(x => x.Category).IsInEnum();
         RuleFor(x => x.Price).InclusiveBetween(1000, 100000000);
         RuleFor(x => x.Unit).IsInEnum();

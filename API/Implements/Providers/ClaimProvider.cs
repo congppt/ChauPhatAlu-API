@@ -8,7 +8,7 @@ public class ClaimProvider : IClaimProvider
 
     public ClaimProvider(IHttpContextAccessor accessor)
     {
-        this._accessor = accessor;
+        _accessor = accessor;
     }
 
     public T GetClaim<T>(string claimType, T defaultValue)

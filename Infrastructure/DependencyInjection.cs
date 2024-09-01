@@ -4,6 +4,7 @@ using Application.Interfaces.Services;
 using Application.Models.Customer;
 using Infrastructure.Implements.Databases;
 using Infrastructure.Implements.Services;
+using Infrastructure.Options;
 using MassTransit;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -32,10 +33,6 @@ public static class DependencyInjection
                     hostCfg.Username(config["MessageBroker:RabbitMQ:Username"]!);
                     hostCfg.Password(config["MessageBroker:RabbitMQ:Password"]!);
                 });
-                // busCfg.Send<CustomerCreate>(x =>
-                // {
-                //     x.UseRoutingKeyFormatter(ctx => typeof(CustomerCreate).FullName);
-                // });
                 busCfg.Publish<CreateCustomer>(topo =>
                 {
                     topo.ExchangeType = ExchangeType.Direct;

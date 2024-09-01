@@ -39,9 +39,16 @@ public class ProductController : Controller
     }
 
     [HttpPost]
-    public async Task<IActionResult> CreateProductAsync([FromBody] CreateProduct model)
+    public async Task<IActionResult> CreateProductAsync(CreateProduct model)
     {
         var guid = await _productService.CreateProductAsync(model);
+        return Accepted(guid);
+    }
+
+    [HttpPatch]
+    public async Task<IActionResult> UpdateProductAsync(UpdateProduct model)
+    {
+        var guid = await _productService.UpdateProductAsync(model);
         return Accepted(guid);
     }
 }

@@ -55,4 +55,10 @@ public class ProductService : GenericService<Product>, IProductService
         await publishProducer.Publish(model);
         return model.Guid;
     }
+
+    public async Task<Guid> UpdateProductAsync(UpdateProduct model)
+    {
+        await publishProducer.Publish(model);
+        return model.Guid;
+    }
 }

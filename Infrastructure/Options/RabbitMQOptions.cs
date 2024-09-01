@@ -1,5 +1,5 @@
 ﻿namespace Infrastructure.Options;
-
+#pragma warning disable CS8618
 public class RabbitMQOptions
 {
     public string Host { get; set; }

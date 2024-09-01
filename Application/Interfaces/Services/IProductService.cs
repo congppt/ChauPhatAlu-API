@@ -12,4 +12,5 @@ public interface IProductService : IGenericService<Product>
 
     Task<DetailProductInfo> GetProductAsync(int productId, CancellationToken ct = default);
     Task<Guid> CreateProductAsync(CreateProduct model);
+    Task<Guid> UpdateProductAsync(UpdateProduct model);
 }

@@ -28,6 +28,6 @@ builder.Services.AddMassTransit(cfg =>
     });
 });
 builder.Services.AddScoped<IValidator<CreateCustomer>, CreateCustomerValidator>();
-
+builder.Services.AddScoped<IValidator<UpdateCustomer>, UpdateCustomerValidator>();
 var host = builder.Build();
 host.Run();

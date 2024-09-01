@@ -42,4 +42,10 @@ public class CustomerService : GenericService<Customer>, ICustomerService
         await publishProducer.Publish(model);
         return model.Guid;
     }
+
+    public async Task<Guid> UpdateCustomerAsync(UpdateCustomer model)
+    {
+        await publishProducer.Publish(model);
+        return model.Guid;
+    }
 }
