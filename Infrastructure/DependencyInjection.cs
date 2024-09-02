@@ -1,4 +1,8 @@
-﻿using Application.Interfaces.Databases;
+﻿using Amazon;
+using Amazon.Extensions.NETCore.Setup;
+using Amazon.Runtime;
+using Amazon.S3;
+using Application.Interfaces.Databases;
 using Application.Interfaces.Providers;
 using Application.Interfaces.Services;
 using Application.Models.Customer;
@@ -40,6 +44,13 @@ public static class DependencyInjection
                 busCfg.ConfigureEndpoints(context);
             });
         });
+        var awsOpts = new AWSOptions()
+        {
+            Credentials = new BasicAWSCredentials(config["AWS:AccessKey"], config["AWS:SecretKey"]),
+            Region = RegionEndpoint.APSoutheast1, 
+        };
+        services.AddDefaultAWSOptions(awsOpts);
+        services.AddAWSService<IAmazonS3>();
         services.AddSingleton<ITimeProvider, TimeProvider>();
         services.AddScoped<IBrandService, BrandService>();
         services.AddScoped<ICustomerService, CustomerService>();

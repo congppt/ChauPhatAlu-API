@@ -8,13 +8,14 @@ using ChauPhatAluminium.Enums;
 using Mapster;
 using MassTransit;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 
 namespace Infrastructure.Implements.Services;
 
 public class BrandService : GenericService<Brand>, IBrandService
 {
     public BrandService(IAppDbContext context, ITimeProvider timeProvider, IClaimProvider claimProvider,
-        IPublishEndpoint publishProducer) : base(context, timeProvider, claimProvider, publishProducer)
+        IPublishEndpoint publishProducer, IConfiguration config) : base(context, timeProvider, claimProvider, publishProducer, config)
     {
     }
 

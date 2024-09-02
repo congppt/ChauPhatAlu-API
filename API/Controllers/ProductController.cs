@@ -51,4 +51,11 @@ public class ProductController : Controller
         var guid = await _productService.UpdateProductAsync(model);
         return Accepted(guid);
     }
+
+    [HttpDelete("{id:int}")]
+    public async Task<IActionResult> SwitchProductStatusAsync(int id)
+    {
+        await _productService.SwitchProductStatusAsync(id);
+        return Ok();
+    }
 }

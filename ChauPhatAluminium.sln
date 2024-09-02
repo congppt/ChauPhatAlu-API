@@ -14,6 +14,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ProductWorker", "ProductWor
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CustomerWorker", "CustomerWorker\CustomerWorker.csproj", "{FC328236-61DE-4769-969B-0CAE4C25937E}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "S3Webhook", "S3Webhook\src\S3Webhook\S3Webhook.csproj", "{F2FBE678-AA9E-484F-89ED-BEBDFCBC342F}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -48,5 +50,9 @@ Global
 		{FC328236-61DE-4769-969B-0CAE4C25937E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{FC328236-61DE-4769-969B-0CAE4C25937E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{FC328236-61DE-4769-969B-0CAE4C25937E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F2FBE678-AA9E-484F-89ED-BEBDFCBC342F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F2FBE678-AA9E-484F-89ED-BEBDFCBC342F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F2FBE678-AA9E-484F-89ED-BEBDFCBC342F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F2FBE678-AA9E-484F-89ED-BEBDFCBC342F}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal

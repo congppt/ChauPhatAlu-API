@@ -13,4 +13,7 @@ public interface IProductService : IGenericService<Product>
     Task<DetailProductInfo> GetProductAsync(int productId, CancellationToken ct = default);
     Task<Guid> CreateProductAsync(CreateProduct model);
     Task<Guid> UpdateProductAsync(UpdateProduct model);
+    Task SwitchProductStatusAsync(int id, CancellationToken ct = default);
+    Task<string> GetImageUploadLinkAsync(int id);
+    Task SetProductImagePathAsync(int id, string imagePath, CancellationToken ct = default);
 }
