@@ -7,6 +7,7 @@ namespace Application.Models.Order;
 #pragma warning disable CS8618
 public class CreateOrder
 {
+    public Guid Guid { get; } = Guid.NewGuid();
     public int CustomerId { get; set; }
     public string Address { get; set; }
     public Dictionary<int, ProductOption> Products { get; set; }

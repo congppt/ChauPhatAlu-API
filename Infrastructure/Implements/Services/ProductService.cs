@@ -95,9 +95,9 @@ public class ProductService : GenericService<Product>, IProductService
     {
         var parameters = imagePath.Split(['/', '_']);
         //if (parameters[0] != DefaultConstants.PRODUCT_IMG_FOLDER) throw new ArgumentException();
-        var product = await context.GetByIdAsync<Product>(id) ?? throw new KeyNotFoundException();
+        var product = await context.GetByIdAsync<Product>(id, ct) ?? throw new KeyNotFoundException();
         product.ImgPath = imagePath;
-        await context.SaveChangesAsync(); return;
+        await context.SaveChangesAsync(ct);
         //await uow.ProductRepo.CacheEntityAsync(id, product);
     }
 }

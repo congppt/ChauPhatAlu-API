@@ -36,7 +36,7 @@ public class OrderController : Controller
     [HttpPost]
     public async Task<IActionResult> CreateOrderAsync(CreateOrder model)
     {
-        var order = await _orderService.CreateOrderAsync(model);
-        return Created($"{Request.Path}/{order.Id}", order);
+        var guid = await _orderService.CreateOrderAsync(model);
+        return Accepted(guid);
     }
 }

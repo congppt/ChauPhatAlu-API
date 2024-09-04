@@ -48,41 +48,9 @@ public class OrderService : GenericService<Order>, IOrderService
         return order.Adapt<DetailOrderInfo>();
     }
 
-    public async Task<DetailOrderInfo> CreateOrderAsync(CreateOrder model, CancellationToken ct = default)
+    public async Task<Guid> CreateOrderAsync(CreateOrder model)
     {
-        var order = model.Adapt<Order>();
-        order.Details = [];
-        var total = 0m;
-        var products = await context.Products.Where(p => model.Products.Keys.Contains(p.Id)).ToListAsync(ct);
-        foreach (var product in products)
-        {
-            var detail = model.Products[product.Id].Adapt<OrderDetail>();
-            detail.Product = product;
-            detail.Price = product.Price;
-            detail.Total = detail.Price * detail.Quantity;
-            switch (product.Category)
-            {
-                case Category.AluminiumDoor:
-                case Category.RollingDoor:
-                case Category.SlidingDoor:
-                    detail.Total *= detail.Height * detail.Width;
-                    break;
-            }
-            total += detail.Total;
-            order.Details.Add(detail);
-        }
-        order.Customer = await context.GetByIdAsync<Customer>(order.CustomerId, ct);
-        order.Total = total;
-        order.Status = OrderStatus.Processing;
-        order.CreatedAt = timeProvider.Now();
-        order.Traces = [ new Order.Trace
-        {
-            ModifiedAt = order.CreatedAt,
-            Note = "",
-            Status = order.Status
-        }];
-        await context.Orders.AddAsync(order, ct);
-        if (!await context.SaveChangesAsync(ct)) throw new DbUpdateException();
-        return order.Adapt<DetailOrderInfo>();
+        await publishProducer.Publish(model);
+        return model.Guid;
     }
 }
