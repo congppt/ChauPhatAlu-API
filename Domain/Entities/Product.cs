@@ -17,7 +17,7 @@ public class Product : BaseEntity
     public Category Category { get; set; }
     public decimal Price { get; set; }
     public Unit Unit { get; set; }
-    [Column(TypeName = "jsonb")]
+    //[Column(TypeName = "jsonb")]
     public string Description { get; set; }
     public string? ImgPath { get; set; }
     public int WarrantyMonth { get; set; }

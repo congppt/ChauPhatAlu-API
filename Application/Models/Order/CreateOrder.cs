@@ -28,7 +28,7 @@ public class CreateOrderValidator : AbstractValidator<CreateOrder>
             return await context.Customers.AnyAsync(c => c.Id == id, ct);
         });
         RuleFor(x => x.Address).NotEmpty().Length(10, 100);
-        RuleFor(x => x.Products).Cascade(CascadeMode.Stop).CustomAsync(async (items, ctx, ct) =>
+        RuleFor(x => x.Products).CustomAsync(async (items, ctx, ct) =>
         {
             var products = await context.Products.Where(p => items.Keys.Contains(p.Id) && p.IsAvailable)
                 .ToListAsync(ct);
@@ -43,10 +43,10 @@ public class CreateOrderValidator : AbstractValidator<CreateOrder>
         });
     }
 
-    private bool IsAllProductsFound(IList<ChauPhatAluminium.Entities.Product> found,
+    private static bool IsAllProductsFound(IList<ChauPhatAluminium.Entities.Product> found,
         IDictionary<int, CreateOrder.ProductOption> origin) => found.Count == origin.Count;
 
-    private bool IsProductOptionValid(ChauPhatAluminium.Entities.Product product, CreateOrder.ProductOption option)
+    private static bool IsProductOptionValid(ChauPhatAluminium.Entities.Product product, CreateOrder.ProductOption option)
     {
         var isValid = option.Quantity >= 1;
         switch (product.Category)

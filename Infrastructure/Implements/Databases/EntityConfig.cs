@@ -38,5 +38,6 @@ public class OrderConfig : IEntityTypeConfiguration<Order>
     public void Configure(EntityTypeBuilder<Order> builder)
     {
         builder.OwnsMany(o => o.Traces, b => b.ToJson());
+        //builder.HasMany(o => o.Details).WithOne(o => o.Order).HasForeignKey(o => o.OrderId);
     }
 }

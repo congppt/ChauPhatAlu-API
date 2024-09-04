@@ -12,8 +12,8 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Infrastructure.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20240819081919_AddProductSKU")]
-    partial class AddProductSKU
+    [Migration("20240904065535_Initial")]
+    partial class Initial
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -142,6 +142,9 @@ namespace Infrastructure.Migrations
                     b.Property<int>("OrderId")
                         .HasColumnType("integer");
 
+                    b.Property<decimal>("Price")
+                        .HasColumnType("numeric");
+
                     b.Property<int>("ProductId")
                         .HasColumnType("integer");
 
@@ -179,7 +182,7 @@ namespace Infrastructure.Migrations
 
                     b.Property<string>("Description")
                         .IsRequired()
-                        .HasColumnType("jsonb");
+                        .HasColumnType("text");
 
                     b.Property<string>("ImgPath")
                         .HasColumnType("text");

@@ -139,6 +139,9 @@ namespace Infrastructure.Migrations
                     b.Property<int>("OrderId")
                         .HasColumnType("integer");
 
+                    b.Property<decimal>("Price")
+                        .HasColumnType("numeric");
+
                     b.Property<int>("ProductId")
                         .HasColumnType("integer");
 
@@ -176,7 +179,7 @@ namespace Infrastructure.Migrations
 
                     b.Property<string>("Description")
                         .IsRequired()
-                        .HasColumnType("jsonb");
+                        .HasColumnType("text");
 
                     b.Property<string>("ImgPath")
                         .HasColumnType("text");

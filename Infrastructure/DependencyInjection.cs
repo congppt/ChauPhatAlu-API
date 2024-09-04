@@ -1,4 +1,5 @@
-﻿using Amazon;
+﻿using System.Reflection;
+using Amazon;
 using Amazon.Extensions.NETCore.Setup;
 using Amazon.Runtime;
 using Amazon.S3;
@@ -6,9 +7,13 @@ using Application.Interfaces.Databases;
 using Application.Interfaces.Providers;
 using Application.Interfaces.Services;
 using Application.Models.Customer;
+using Application.Models.Order;
+using Application.Models.Product;
 using Infrastructure.Implements.Databases;
 using Infrastructure.Implements.Services;
 using Infrastructure.Options;
+using Mapster;
+using Mapster.Utils;
 using MassTransit;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -37,10 +42,10 @@ public static class DependencyInjection
                     hostCfg.Username(config["MessageBroker:RabbitMQ:Username"]!);
                     hostCfg.Password(config["MessageBroker:RabbitMQ:Password"]!);
                 });
-                busCfg.Publish<CreateCustomer>(topo =>
-                {
-                    topo.ExchangeType = ExchangeType.Direct;
-                });
+                busCfg.Publish<CreateCustomer>(topo => topo.ExchangeType = ExchangeType.Direct);
+                busCfg.Publish<UpdateCustomer>(topo => topo.ExchangeType = ExchangeType.Direct);
+                busCfg.Publish<CreateProduct>(topo => topo.ExchangeType = ExchangeType.Direct);
+                busCfg.Publish<UpdateProduct>(topo => topo.ExchangeType = ExchangeType.Direct);
                 busCfg.ConfigureEndpoints(context);
             });
         });
@@ -51,6 +56,7 @@ public static class DependencyInjection
         };
         services.AddDefaultAWSOptions(awsOpts);
         services.AddAWSService<IAmazonS3>();
+        TypeAdapterConfig.GlobalSettings.ScanInheritedTypes(typeof(BasicOrderInfo).Assembly);
         services.AddSingleton<ITimeProvider, TimeProvider>();
         services.AddScoped<IBrandService, BrandService>();
         services.AddScoped<ICustomerService, CustomerService>();

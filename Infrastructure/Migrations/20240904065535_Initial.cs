@@ -24,8 +24,7 @@ namespace Infrastructure.Migrations
                 {
                     Id = table.Column<int>(type: "integer", nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
-                    Name = table.Column<string>(type: "citext", nullable: false),
-                    Categories = table.Column<int[]>(type: "integer[]", nullable: false)
+                    Name = table.Column<string>(type: "citext", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -56,11 +55,12 @@ namespace Infrastructure.Migrations
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
                     Name = table.Column<string>(type: "citext", nullable: false),
                     BrandId = table.Column<int>(type: "integer", nullable: false),
+                    SKU = table.Column<string>(type: "citext", nullable: false),
                     Category = table.Column<int>(type: "integer", nullable: false),
                     Price = table.Column<decimal>(type: "numeric", nullable: false),
                     Unit = table.Column<int>(type: "integer", nullable: false),
-                    Description = table.Column<string>(type: "jsonb", nullable: false),
-                    ImgPath = table.Column<string>(type: "text", nullable: false),
+                    Description = table.Column<string>(type: "text", nullable: false),
+                    ImgPath = table.Column<string>(type: "text", nullable: true),
                     WarrantyMonth = table.Column<int>(type: "integer", nullable: false),
                     IsAvailable = table.Column<bool>(type: "boolean", nullable: false)
                 },
@@ -85,6 +85,7 @@ namespace Infrastructure.Migrations
                     CreatedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
                     Total = table.Column<decimal>(type: "numeric", nullable: false),
                     Status = table.Column<int>(type: "integer", nullable: false),
+                    Address = table.Column<string>(type: "text", nullable: false),
                     Traces = table.Column<string>(type: "jsonb", nullable: true)
                 },
                 constraints: table =>
@@ -106,6 +107,7 @@ namespace Infrastructure.Migrations
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
                     OrderId = table.Column<int>(type: "integer", nullable: false),
                     ProductId = table.Column<int>(type: "integer", nullable: false),
+                    Price = table.Column<decimal>(type: "numeric", nullable: false),
                     Quantity = table.Column<int>(type: "integer", nullable: false),
                     Height = table.Column<int>(type: "integer", nullable: false),
                     Width = table.Column<int>(type: "integer", nullable: false),
@@ -130,13 +132,13 @@ namespace Infrastructure.Migrations
 
             migrationBuilder.InsertData(
                 table: "Brands",
-                columns: new[] { "Id", "Categories", "Name" },
+                columns: new[] { "Id", "Name" },
                 values: new object[,]
                 {
-                    { 1, new[] { 4, 0, 5, 3 }, "Austdoor" },
-                    { 2, new[] { 2 }, "Xingfa Quảng Đông" },
-                    { 3, new[] { 0, 3, 1, 4 }, "Á Châu Door" },
-                    { 4, new[] { 0 }, "Titadoor" }
+                    { 1, "Austdoor" },
+                    { 2, "Xingfa Quảng Đông" },
+                    { 3, "Á Châu Door" },
+                    { 4, "Titadoor" }
                 });
 
             migrationBuilder.CreateIndex(
@@ -164,6 +166,12 @@ namespace Infrastructure.Migrations
                 name: "IX_Products_BrandId",
                 table: "Products",
                 column: "BrandId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Products_SKU",
+                table: "Products",
+                column: "SKU",
+                unique: true);
         }
 
         /// <inheritdoc />

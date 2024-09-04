@@ -1,5 +1,6 @@
 ﻿using API.Common;
 using Application.Interfaces.Services;
+using Application.Models.Order;
 using ChauPhatAluminium.Enums;
 using Microsoft.AspNetCore.Mvc;
 
@@ -30,5 +31,12 @@ public class OrderController : Controller
     {
         var order = await _orderService.GetOrderAsync(id);
         return Ok(order);
+    }
+
+    [HttpPost]
+    public async Task<IActionResult> CreateOrderAsync(CreateOrder model)
+    {
+        var order = await _orderService.CreateOrderAsync(model);
+        return Created($"{Request.Path}/{order.Id}", order);
     }
 }
