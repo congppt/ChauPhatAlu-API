@@ -28,7 +28,7 @@ public class CreateOrderConsumer : IConsumer<CreateOrder>
     public async Task Consume(ConsumeContext<CreateOrder> context)
     {
         var validation = await _validator.ValidateAsync(context.Message);
-        var response = new MessageResult
+        var response = new CommandResult
         {
             StatusCode = HttpStatusCode.Conflict,
             Data = validation

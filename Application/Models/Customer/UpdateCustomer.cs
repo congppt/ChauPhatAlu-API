@@ -1,17 +1,13 @@
 ﻿using Application.Interfaces.Databases;
+using Application.Models.Common;
 using FluentValidation;
 using Microsoft.EntityFrameworkCore;
 
 namespace Application.Models.Customer;
 #pragma warning disable CS8618
-public class UpdateCustomer
+public class UpdateCustomer : CreateCustomer
 {
-    public Guid Guid { get; } = Guid.NewGuid();
     public int Id { get; set; }
-    public string Name { get; set; }
-    public string Phone { get; set; }
-    public bool IsMale { get; set; }
-    public string Address { get; set; }
 }
 
 public class UpdateCustomerValidator : AbstractValidator<UpdateCustomer>

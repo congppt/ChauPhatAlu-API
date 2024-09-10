@@ -1,13 +1,13 @@
 ﻿using Application.Interfaces.Databases;
+using Application.Models.Common;
 using FluentValidation;
 using Microsoft.EntityFrameworkCore;
 
 namespace Application.Models.Customer;
 
 #pragma warning disable CS8618
-public class CreateCustomer
+public class CreateCustomer : Command
 {
-    public Guid Guid { get; } = Guid.NewGuid();
     public string Name { get; set; }
     public string Phone { get; set; }
     public bool IsMale { get; set; }

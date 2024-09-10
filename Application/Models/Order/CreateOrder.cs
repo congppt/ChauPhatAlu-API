@@ -1,13 +1,13 @@
 ﻿using Application.Interfaces.Databases;
+using Application.Models.Common;
 using ChauPhatAluminium.Enums;
 using FluentValidation;
 using Microsoft.EntityFrameworkCore;
 
 namespace Application.Models.Order;
 #pragma warning disable CS8618
-public class CreateOrder
+public class CreateOrder : Command
 {
-    public Guid Guid { get; } = Guid.NewGuid();
     public int CustomerId { get; set; }
     public string Address { get; set; }
     public Dictionary<int, ProductOption> Products { get; set; }

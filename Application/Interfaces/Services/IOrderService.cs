@@ -11,4 +11,5 @@ public interface IOrderService : IGenericService<Order>
         int? customerId, DateTime? minDate, DateTime? maxDate, CancellationToken ct = default);
     Task<DetailOrderInfo> GetOrderAsync(int orderId, CancellationToken ct = default);
     Task<Guid> CreateOrderAsync(CreateOrder model);
+    Task<DetailOrderInfo> UpdateOrderStatusAsync(int id, CancellationToken ct = default);
 }

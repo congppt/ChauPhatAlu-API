@@ -6,6 +6,7 @@ using Amazon.S3;
 using Application.Interfaces.Databases;
 using Application.Interfaces.Providers;
 using Application.Interfaces.Services;
+using Application.Models.Brand;
 using Application.Models.Customer;
 using Application.Models.Order;
 using Application.Models.Product;
@@ -42,6 +43,7 @@ public static class DependencyInjection
                     hostCfg.Username(config["MessageBroker:RabbitMQ:Username"]!);
                     hostCfg.Password(config["MessageBroker:RabbitMQ:Password"]!);
                 });
+                busCfg.Publish<CreateBrand>(topo => topo.ExchangeType = ExchangeType.Direct);
                 busCfg.Publish<CreateCustomer>(topo => topo.ExchangeType = ExchangeType.Direct);
                 busCfg.Publish<UpdateCustomer>(topo => topo.ExchangeType = ExchangeType.Direct);
                 busCfg.Publish<CreateProduct>(topo => topo.ExchangeType = ExchangeType.Direct);

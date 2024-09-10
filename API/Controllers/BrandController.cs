@@ -35,7 +35,7 @@ public class BrandController : Controller
     [HttpPost]
     public async Task<IActionResult> CreateBrandAsync([FromBody] CreateBrand model)
     {
-        var brand = await _brandService.CreateBrandAsync(model);
-        return Created($"{Request.Path}/{brand.Id}", brand);
+        var guid = await _brandService.CreateBrandAsync(model);
+        return Accepted(guid);
     }
 }

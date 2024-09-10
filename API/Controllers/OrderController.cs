@@ -39,4 +39,11 @@ public class OrderController : Controller
         var guid = await _orderService.CreateOrderAsync(model);
         return Accepted(guid);
     }
+
+    [HttpPatch("{id:int}")]
+    public async Task<IActionResult> UpdateOrderStatusAsync(int id)
+    {
+        var guid = await _orderService.UpdateOrderStatusAsync(id);
+        return Accepted(guid);
+    }
 }

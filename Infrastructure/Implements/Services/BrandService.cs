@@ -34,11 +34,9 @@ public class BrandService : GenericService<Brand>, IBrandService
         return brand.Adapt<DetailBrandInfo>();
     }
 
-    public async Task<DetailBrandInfo> CreateBrandAsync(CreateBrand model, CancellationToken ct = default)
+    public async Task<Guid> CreateBrandAsync(CreateBrand model, CancellationToken ct = default)
     {
-        var brand = model.Adapt<Brand>();
-        await context.Brands.AddAsync(brand, ct);
-        if (await context.SaveChangesAsync(ct)) return brand.Adapt<DetailBrandInfo>();
-        throw new Exception();
+        await publishProducer.Publish(model, ct);
+        return model.Guid;
     }
 }

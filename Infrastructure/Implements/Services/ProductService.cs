@@ -56,23 +56,24 @@ public class ProductService : GenericService<Product>, IProductService
         return product.Adapt<DetailProductInfo>();
     }
 
-    public async Task<Guid> CreateProductAsync(CreateProduct model)
+    public async Task<Guid> CreateProductAsync(CreateProduct model, CancellationToken ct = default)
     {
-        await publishProducer.Publish(model);
+        await publishProducer.Publish(model, ct);
         return model.Guid;
     }
 
-    public async Task<Guid> UpdateProductAsync(UpdateProduct model)
+    public async Task<Guid> UpdateProductAsync(UpdateProduct model, CancellationToken ct = default)
     {
-        await publishProducer.Publish(model);
+        await publishProducer.Publish(model, ct);
         return model.Guid;
     }
 
-    public async Task SwitchProductStatusAsync(int id, CancellationToken ct = default)
+    public async Task<DetailProductInfo> SwitchProductStatusAsync(int id, CancellationToken ct = default)
     {
         var product = await context.GetByIdAsync<Product>(id, ct) ?? throw new KeyNotFoundException();
         product.IsAvailable = !product.IsAvailable;
         await context.SaveChangesAsync(ct);
+        return product.Adapt<DetailProductInfo>();
     }
 
     public async Task<string> GetImageUploadLinkAsync(int id)

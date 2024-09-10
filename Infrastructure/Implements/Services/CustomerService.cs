@@ -38,13 +38,13 @@ public class CustomerService : GenericService<Customer>, ICustomerService
         return customer.Adapt<DetailCustomerInfo>();
     }
 
-    public async Task<Guid> CreateCustomerAsync(CreateCustomer model)
+    public async Task<Guid> CreateCustomerAsync(CreateCustomer model, CancellationToken ct = default)
     {
-        await publishProducer.Publish(model);
+        await publishProducer.Publish(model, ct);
         return model.Guid;
     }
 
-    public async Task<Guid> UpdateCustomerAsync(UpdateCustomer model)
+    public async Task<Guid> UpdateCustomerAsync(UpdateCustomer model, CancellationToken ct = default)
     {
         await publishProducer.Publish(model);
         return model.Guid;

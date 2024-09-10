@@ -1,26 +1,26 @@
 ﻿using System.Net;
 using Application.Interfaces.Databases;
+using Application.Models.Brand;
 using Application.Models.Common;
-using Application.Models.Product;
 using ChauPhatAluminium.Entities;
 using FluentValidation;
 using Mapster;
 using MassTransit;
 using RabbitMQ.Client;
 
-namespace ProductWorker.Consumers;
+namespace BrandWorker.Consumers;
 
-public class UpdateProductConsumer : IConsumer<UpdateProduct>
+public class CreateBrandConsumer : IConsumer<CreateBrand>
 {
     private readonly IAppDbContext _dbContext;
-    private readonly IValidator<UpdateProduct> _validator;
-    public UpdateProductConsumer(IAppDbContext dbContext, IValidator<UpdateProduct> validator)
+    private readonly IValidator<CreateBrand> _validator;
+    public CreateBrandConsumer(IAppDbContext dbContext, IValidator<CreateBrand> validator)
     {
         _dbContext = dbContext;
         _validator = validator;
     }
 
-    public async Task Consume(ConsumeContext<UpdateProduct> context)
+    public async Task Consume(ConsumeContext<CreateBrand> context)
     {
         var validation = await _validator.ValidateAsync(context.Message);
         var response = new CommandResult
@@ -32,11 +32,11 @@ public class UpdateProductConsumer : IConsumer<UpdateProduct>
         {
             try
             {
-                var customer = context.Message.Adapt<Product>();
-                await _dbContext.Products.AddAsync(customer);
+                var brand = context.Message.Adapt<Brand>();
+                await _dbContext.Brands.AddAsync(brand);
                 await _dbContext.SaveChangesAsync();
-                response.StatusCode = HttpStatusCode.OK;
-                response.Data = customer.Adapt<DetailProductInfo>();
+                response.StatusCode = HttpStatusCode.Created;
+                response.Data = brand.Adapt<DetailBrandInfo>();
             }
             catch (Exception ex)
             {
@@ -46,16 +46,16 @@ public class UpdateProductConsumer : IConsumer<UpdateProduct>
     }
     
 }
-public class UpdateProductConsumerDefinition : ConsumerDefinition<UpdateProductConsumer>
+public class CreateBrandConsumerDefinition : ConsumerDefinition<CreateBrandConsumer>
 {
     protected override void ConfigureConsumer(IReceiveEndpointConfigurator endpointConfigurator,
-        IConsumerConfigurator<UpdateProductConsumer> consumerConfigurator)
+        IConsumerConfigurator<CreateBrandConsumer> consumerConfigurator)
     {
         endpointConfigurator.ConfigureConsumeTopology = false;
     
         if (endpointConfigurator is IRabbitMqReceiveEndpointConfigurator rmq)
         {
-            rmq.Bind<UpdateProduct>(x =>
+            rmq.Bind<CreateBrand>(x =>
             {
                 x.ExchangeType = ExchangeType.Direct;
             });

@@ -23,7 +23,7 @@ public class UpdateCustomerConsumer : IConsumer<UpdateCustomer>
     public async Task Consume(ConsumeContext<UpdateCustomer> context)
     {
         var validation = await _validator.ValidateAsync(context.Message);
-        var response = new MessageResult
+        var response = new CommandResult
         {
             StatusCode = HttpStatusCode.Conflict,
             Data = validation
