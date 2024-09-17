@@ -1,11 +1,11 @@
-﻿using Application.Models.Common;
+﻿using Application.Interfaces.Services.Generic;
+using Application.Models.Common;
 using Application.Models.Product;
-using ChauPhatAluminium.Entities;
 using ChauPhatAluminium.Enums;
 
-namespace Application.Interfaces.Services;
+namespace Application.Interfaces.Services.Product;
 
-public interface IProductService : IGenericService<Product>
+public interface IProductService : IGenericService<ChauPhatAluminium.Entities.Product>
 {
     Task<OffsetPage<BasicProductInfo>> GetProductPageAsync(int pageNumber, int pageSize, string? sku, string? name,
         int? brandId, Category? category, int minPrice, int? maxPrice, CancellationToken ct = default);

@@ -1,11 +1,10 @@
-﻿using Application.Models.Brand;
+﻿using Application.Interfaces.Services.Generic;
+using Application.Models.Brand;
 using Application.Models.Common;
-using ChauPhatAluminium.Entities;
-using ChauPhatAluminium.Enums;
 
-namespace Application.Interfaces.Services;
+namespace Application.Interfaces.Services.Brand;
 
-public interface IBrandService : IGenericService<Brand>
+public interface IBrandService : IGenericService<ChauPhatAluminium.Entities.Brand>
 {
     Task<OffsetPage<BasicBrandInfo>> GetBrandPageAsync(int pageNumber, int pageSize, string? name,
         CancellationToken ct = default);
