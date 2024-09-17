@@ -10,6 +10,6 @@ public interface IOrderService : IGenericService<Order>
     Task<OffsetPage<BasicOrderInfo>> GetOrderPageAsync(int pageNumber, int pageSize, OrderStatus? status,
         int? customerId, DateTime? minDate, DateTime? maxDate, CancellationToken ct = default);
     Task<DetailOrderInfo> GetOrderAsync(int orderId, CancellationToken ct = default);
-    Task<Guid> CreateOrderAsync(CreateOrder model);
-    Task<DetailOrderInfo> UpdateOrderStatusAsync(int id, CancellationToken ct = default);
+    Task<Guid> CreateOrderAsync(CreateOrder model, CancellationToken ct = default);
+    Task<Guid> UpdateOrderStatusAsync(UpdateOrderStatus model, CancellationToken ct = default);
 }

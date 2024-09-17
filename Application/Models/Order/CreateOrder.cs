@@ -22,16 +22,16 @@ public class CreateOrder : Command
 
 public class CreateOrderValidator : AbstractValidator<CreateOrder>
 {
-    public CreateOrderValidator(IAppDbContext context)
+    public CreateOrderValidator(IAppDbContext dbContext)
     {
         RuleFor(x => x.CustomerId).MustAsync(async (id, ct) =>
         {
-            return await context.Customers.AnyAsync(c => c.Id == id, ct);
+            return await dbContext.Customers.AnyAsync(c => c.Id == id, ct);
         });
         RuleFor(x => x.Address).NotEmpty().Length(10, 100);
         RuleFor(x => x.Products).CustomAsync(async (items, ctx, ct) =>
         {
-            var products = await context.Products.Where(p => items.Keys.Contains(p.Id) && p.IsAvailable)
+            var products = await dbContext.Products.Where(p => items.Keys.Contains(p.Id) && p.IsAvailable)
                 .ToListAsync(ct);
             if (!IsAllProductsFound(products, items))
             {

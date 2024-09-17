@@ -17,11 +17,11 @@ public class UpdateProduct
 
 public class UpdateProductValidator : AbstractValidator<UpdateProduct>
 {
-    public UpdateProductValidator(IAppDbContext context)
+    public UpdateProductValidator(IAppDbContext dbContext)
     {
         RuleFor(x => x.Id).MustAsync(async (id, ct) =>
         {
-            return await context.Products.AnyAsync(p => p.Id == id, ct);
+            return await dbContext.Products.AnyAsync(p => p.Id == id, ct);
         });
         RuleFor(x => x.Name).NotEmpty().Length(5, 25);
         RuleFor(x => x.Price).InclusiveBetween(1000, 100000000);

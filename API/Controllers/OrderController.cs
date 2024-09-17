@@ -40,10 +40,10 @@ public class OrderController : Controller
         return Accepted(guid);
     }
 
-    [HttpPatch("{id:int}")]
-    public async Task<IActionResult> UpdateOrderStatusAsync(int id)
+    [HttpPatch]
+    public async Task<IActionResult> UpdateOrderStatusAsync(UpdateOrderStatus model)
     {
-        var guid = await _orderService.UpdateOrderStatusAsync(id);
+        var guid = await _orderService.UpdateOrderStatusAsync(model);
         return Accepted(guid);
     }
 }

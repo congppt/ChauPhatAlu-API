@@ -16,12 +16,12 @@ public class CreateCustomer : Command
 
 public class CreateCustomerValidator : AbstractValidator<CreateCustomer>
 {
-    public CreateCustomerValidator(IAppDbContext context)
+    public CreateCustomerValidator(IAppDbContext dbContext)
     {
         RuleFor(x => x.Name).NotEmpty().Length(3, 20);
         RuleFor(x => x.Phone).MustAsync(async (phone, ct) =>
         {
-            return !await context.Customers.AnyAsync(c => c.Phone == phone, ct);
+            return !await dbContext.Customers.AnyAsync(c => c.Phone == phone, ct);
         });
         RuleFor(x => x.Address).NotEmpty().Length(10, 100);
     }

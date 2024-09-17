@@ -1,5 +1,7 @@
-﻿using Application.Models.Common;
+﻿using Application.Interfaces.Databases;
+using Application.Models.Common;
 using FluentValidation;
+using Microsoft.EntityFrameworkCore;
 
 namespace Application.Models.Brand;
 
@@ -11,8 +13,11 @@ public class CreateBrand : Command
 
 public class CreateBrandValidator : AbstractValidator<CreateBrand>
 {
-    public CreateBrandValidator()
+    public CreateBrandValidator(IAppDbContext dbContext)
     {
-        RuleFor(x => x.Name).NotEmpty().Length(2, 10);
+        RuleFor(x => x.Name).NotEmpty().Length(2, 10).MustAsync(async (name, ct) =>
+        {
+            return !await dbContext.Brands.AnyAsync(b => b.Name == name, ct);
+        });
     }
 }

@@ -20,6 +20,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OrderWorker", "OrderWorker\
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BrandWorker", "BrandWorker\BrandWorker.csproj", "{42869515-FA2B-4D53-9FB5-1CDADBF1D823}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "ApiGateways", "ApiGateways", "{12606C87-5942-45A1-B39B-124B87D7B292}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "YarpAPIGateways", "YarpAPIGateways\YarpAPIGateways.csproj", "{9FB53EB9-EC3C-4DF1-966E-2A92597A9F33}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -66,5 +70,12 @@ Global
 		{42869515-FA2B-4D53-9FB5-1CDADBF1D823}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{42869515-FA2B-4D53-9FB5-1CDADBF1D823}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{42869515-FA2B-4D53-9FB5-1CDADBF1D823}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9FB53EB9-EC3C-4DF1-966E-2A92597A9F33}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9FB53EB9-EC3C-4DF1-966E-2A92597A9F33}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9FB53EB9-EC3C-4DF1-966E-2A92597A9F33}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9FB53EB9-EC3C-4DF1-966E-2A92597A9F33}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{9FB53EB9-EC3C-4DF1-966E-2A92597A9F33} = {12606C87-5942-45A1-B39B-124B87D7B292}
 	EndGlobalSection
 EndGlobal

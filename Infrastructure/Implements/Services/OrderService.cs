@@ -48,19 +48,15 @@ public class OrderService : GenericService<Order>, IOrderService
         return order.Adapt<DetailOrderInfo>();
     }
 
-    public async Task<Guid> CreateOrderAsync(CreateOrder model)
+    public async Task<Guid> CreateOrderAsync(CreateOrder model, CancellationToken ct = default)
     {
-        await publishProducer.Publish(model);
+        await publishProducer.Publish(model, ct);
         return model.Guid;
     }
 
-    public async Task<DetailOrderInfo> UpdateOrderStatusAsync(int id, CancellationToken ct = default)
+    public async Task<Guid> UpdateOrderStatusAsync(UpdateOrderStatus model, CancellationToken ct = default)
     {
-        var order = await context.GetByIdAsync<Order>(id, ct, o => o.Details.AsQueryable().Include(d => d.Product)) ?? throw new KeyNotFoundException();
-        if (order.Status == OrderStatus.Completed) throw new ArgumentException();
-        order.Status++;
-        order.Traces.Add(new() { Status = order.Status, ModifiedAt = timeProvider.Now(), Note = "" });
-        await context.SaveChangesAsync(ct);
-        return order.Adapt<DetailOrderInfo>();
+        await publishProducer.Publish(model, ct);
+        return model.Guid;
     }
 }
