@@ -9,6 +9,7 @@ public class Customer : Entity
 
     public static Customer Create(int id, string name, string phone)
     {
+        ArgumentOutOfRangeException.ThrowIfNegativeOrZero(id);
         ArgumentException.ThrowIfNullOrWhiteSpace(name);
         ArgumentException.ThrowIfNullOrWhiteSpace(phone);
         return new Customer
